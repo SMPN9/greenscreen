@@ -2,25 +2,26 @@
 <html>
   <head>
     <meta charset=UTF-8 />
-    <link rel="stylesheet" type="text/css" href="styles.css" />
+    
   </head>
   <body>
     
     <div>
-      <video   id="video" width="800" src="video2.mp4" autoplay muted loop></video>
-      <canvas id="output-canvas"  ></canvas>
+      <video id="video" width="800" src="video2.mp4" autoplay muted loop></video>
+      <canvas id="output-canvas" width="800" height="450" ></canvas>
     </div>
-
+     
+	   <button onclick="gbr()">Tes</button>
+	    <div id="gbr"></div>
     <script>
       let video,video2,c1,ctx1,c_tmp,ctx_tmp; 
       function init() {
         video = document.getElementById('video');
 
-        video2 = document.createElement('video');
-        video2.src = "video2.mp4"
-        video2.muted = true;
-        video2.autoplay = true;
-
+        video2 = document.createElement('img');
+        video2.src = "fire.jpg"
+        video2.width=800;
+        video2.height=450;
         c1 = document.getElementById('output-canvas');
         ctx1 = c1.getContext('2d');
 
@@ -36,18 +37,19 @@
     if (video.paused || video.ended) {
       return;
     }
-    ctx_tmp.drawImage(video, 0, 0, video.videoWidth , video.videoHeight );
-    let frame = ctx_tmp.getImageData(0, 0, video.videoWidth , video.videoHeight );
+    ctx_tmp.drawImage(video, 0, 0, 800 , 450 );
+    let frame = ctx_tmp.getImageData(0, 0, 800 , 450 );
 
-    ctx_tmp.drawImage(video2, 0, 0, video2.videoWidth , video2.videoHeight );
-    let frame2 = ctx_tmp.getImageData(0, 0, video2.videoWidth , video2.videoHeight );
+    ctx_tmp.drawImage(video2, 0, 0, video2.width , video2.height );
+    let frame2 = ctx_tmp.getImageData(0, 0, video2.width , video2.height );
 
     for (let i = 0; i < frame.data.length /4; i++) {
       let r = frame.data[i * 4 + 0];
       let g = frame.data[i * 4 + 1];
       let b = frame.data[i * 4 + 2];
 
-      if (r > 70 && r < 160 && g > 95 && g < 220 && b > 25 && b < 150) 
+     // if (r > 70 && r < 160 &&  g > 70 && g < 40 && b > 100 && b < 150) 
+	  if( g>120  && r <135 ) 
       {  
           frame.data[i * 4 + 0] = frame2.data[i * 4 + 0];
           frame.data[i * 4 + 1] = frame2.data[i * 4 + 1];
@@ -61,6 +63,18 @@
     document.addEventListener("DOMContentLoaded", () => {
       init();
     });
+	
+	function gbr(){
+	var bb=document.getElementById('output-canvas');
+	 var mm= bb.getContext('2d')
+	 var gbr=document.getElementById("gbr");
+	 var data=bb.toDataURL();
+	gbr.innerHTML="<img src='"+data+"'></img>"
+	
+	}
+	
+	
+	
     </script>
   </body>
 </html>
